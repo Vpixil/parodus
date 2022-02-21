@@ -784,7 +784,11 @@ int createNopollConnection(noPollCtx *ctx, server_list_t *server_list)
 
 	if((get_parodus_cfg()->boot_time != 0) && init) {
 		getCurrentTime(connectTimePtr);
-		ParodusInfo("connect_time-diff-boot_time=%d\n", connectTimePtr->tv_sec - get_parodus_cfg()->boot_time);
+		struct sysinfo l_sSysInfo;                                                  
+		sysinfo(&l_sSysInfo);
+           char uptime[16] = {0};
+           snprintf(uptime, sizeof(uptime), "%ld", l_sSysInfo.uptime);
+           ParodusInfo("uptime = %s", uptime);
 		init = 0; //set init to 0 so that this is logged only during process start up and not during reconnect
 	}
 
